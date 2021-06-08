@@ -29,15 +29,14 @@ def build_immo_url_from_config(cfg):
 
   return url
 
-def get_api_response():
-  pass
+def get_result_list(url):
+  """Returns the available listings as an array of raw results"""
 
-# r = requests.post(url)
-# content = json.loads(r.content)
-# result_list = content["searchResponseModel"]["resultlist.resultlist"]["resultlistEntries"][0]["resultlistEntry"]
-# print(len(result_list))
-# for result in result_list:
-#   print(result)
+  r = requests.post(url)
+  content = json.loads(r.content)
+  result_list = content["searchResponseModel"]["resultlist.resultlist"]["resultlistEntries"][0]["resultlistEntry"]
+  return result_list
+
 
 
 def main():
@@ -45,8 +44,8 @@ def main():
     cfg = Box(yaml.safe_load(ymlfile))
 
   url = build_immo_url_from_config(cfg.immoscout)
-  print(url)
-
+  result_list = get_result_list(url)
+  
 
 
 if __name__ == '__main__':
