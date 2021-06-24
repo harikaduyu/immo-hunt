@@ -2,14 +2,14 @@ import yaml
 from box import Box
 import requests
 import json
-
-
+import time
+import telegram
 
 def build_immo_url_from_config(cfg):
   """Builds immobilienscout url using config values to set request parameters"""
 
-  mit_balkon = cfg.mit_balkon if hasattr(cfg, 'mit_balkon') else ""
-  url = f"{cfg.url}{cfg.city}/{cfg.city}/wohnung{mit_balkon}-mieten?"
+  with_balcony =  "-mit-balkon" if hasattr(cfg, 'with_balcony') and cfg.with_balcony else ""
+  url = f"{cfg.url}{cfg.city}/{cfg.city}/wohnung{with_balcony}-mieten?"
 
   #Build parameters
   url += f"haspromotion={cfg.wbs}&"  if hasattr(cfg, 'wbs') and cfg.wbs is not None else ""
@@ -20,27 +20,56 @@ def build_immo_url_from_config(cfg):
   url += f"livingspace={cfg.livingspace}&" if  hasattr(cfg, 'livingspace') and cfg.livingspace  else ""
   url += f"price_type={cfg.price_type}&" if hasattr(cfg, 'price_type') and cfg.price_type  else ""
   url += f"floor={cfg.floor_from}" if hasattr(cfg, 'floor_from') and cfg.floor_from  else ""
-
+  url += "&sorting=2"
   return url
 
 def get_result_list(url):
   """Returns the available listings as an array of raw results"""
-
   r = requests.post(url)
   content = json.loads(r.content)
   result_list = content["searchResponseModel"]["resultlist.resultlist"]["resultlistEntries"][0]["resultlistEntry"]
   return result_list
 
+def parse_result(result):
+  """Parses the relevant info from the result json to a string for Telegram message"""
+  res = result['resultlist.realEstate']['address']['quarter'] +'\n'
+  res += "Total Rent: " + str(result['resultlist.realEstate']["calculatedTotalRent"]["totalRent"]["value"]) +'Eur\n'
+  attributes = result['attributes'][0]['attribute']
+  for a in attributes:
+    res += str(a['label']) + ": " + str(a['value']) +'\n'
+  res += "https://www.immobilienscout24.de/expose/" + result['@id']
+  return res
 
+def print_result(result):
+  """Prints the relevant info from the result"""
+  print("id: "+result['@id'])
+  print("title")
+  print(result['resultlist.realEstate']['title'])
+  print("address")
+  print(result['resultlist.realEstate']['address'])
+  # print(json.dumps(result, sort_keys=False, indent=4))
 
 def main():
   with open("config.yaml", "r") as ymlfile:
     cfg = Box(yaml.safe_load(ymlfile))
-
+    
+  # Don't get notified for the existing offers
+  first_run = True
+  m = set()
   url = build_immo_url_from_config(cfg.immoscout)
-  result_list = get_result_list(url)
-
-
+  bot = telegram.Bot(token=cfg.telegram.token)
+  bot.sendMessage(chat_id = cfg.telegram.chat_id, text = "Start")
+  while True:
+    result_list = get_result_list(url)
+    for result in result_list:
+      if result['@id'] not in m:
+        if not first_run:
+          res = parse_result(result) 
+          print_result(result)
+          bot.sendMessage(chat_id = cfg.telegram.chat_id, text = res )
+        m.add(result['@id'])
+    first_run = False
+    time.sleep(60)
 
 if __name__ == '__main__':
   main()

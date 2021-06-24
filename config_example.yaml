@@ -1,0 +1,14 @@
+immoscout:
+  url: https://www.immobilienscout24.de/Suche/de/
+  city: berlin
+  with_balcony: true
+  wbs: false
+  num_of_rooms: 2
+  price_from: null
+  price_up_to: 1000.0
+  living_space: 60.0
+  price_type: calculatedtotalrent #for warm or rentpermonth for kalt
+  floor_from: 2
+telegram:
+  token: <your-telegram-bot-token>
+  chat_id: <your-telegram-chat_id>
