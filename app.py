@@ -40,6 +40,17 @@ def parse_result(result):
   res += "https://www.immobilienscout24.de/expose/" + result['@id']
   return res
 
+
+def get_message_suggestion(result,cfg):
+  """Prepares a message suggestions to send"""
+  contact = result['resultlist.realEstate']['contactDetails']
+  salutation =  " Frau" if contact['salutation'] == "FEMALE" else "r Herr"
+  last_name = contact['lastname']
+  address = result['resultlist.realEstate']['address']['description']['text']
+  text = f"Sehr geehrte{salutation} {last_name},\n{cfg.text_before_address} {address} {cfg.text_after_address}" 
+  print(text)
+  return text
+
 def print_result(result):
   """Prints the relevant info from the result"""
   print("id: "+result['@id'])
@@ -50,9 +61,9 @@ def print_result(result):
   # print(json.dumps(result, sort_keys=False, indent=4))
 
 def main():
-  with open("config.yaml", "r") as ymlfile:
+  with open("config.yaml", "r",  encoding='utf-8') as ymlfile:
     cfg = Box(yaml.safe_load(ymlfile))
-    
+
   # Don't get notified for the existing offers
   first_run = True
   m = set()
@@ -65,8 +76,10 @@ def main():
       if result['@id'] not in m:
         if not first_run:
           res = parse_result(result) 
+          bot.sendMessage(chat_id = cfg.telegram.chat_id, text = res )        
           print_result(result)
-          bot.sendMessage(chat_id = cfg.telegram.chat_id, text = res )
+          message_suggestion = get_message_suggestion(result,cfg.message)
+          bot.sendMessage(chat_id = cfg.telegram.chat_id, text = message_suggestion )  
         m.add(result['@id'])
     first_run = False
     time.sleep(60)
