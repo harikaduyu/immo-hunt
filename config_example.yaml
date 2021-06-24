@@ -12,3 +12,6 @@ immoscout:
 telegram:
   token: <your-telegram-bot-token>
   chat_id: <your-telegram-chat_id>
+message:
+  text_before_address: <your-message-text-before-mentioning-address>
+  text_after_address: <your-message-text-after-mentioning-address>
