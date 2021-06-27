@@ -44,20 +44,27 @@ def parse_result(result):
 def get_message_suggestion(result,cfg):
   """Prepares a message suggestions to send"""
   contact = result['resultlist.realEstate']['contactDetails']
-  salutation =  " Frau" if contact['salutation'] == "FEMALE" else "r Herr"
-  last_name = contact['lastname']
+  salutation = "Sehr geehrte"
+  if 'lastname' in contact:
+    salutation +=  " Frau " if contact['salutation'] == "FEMALE" else "r Herr "
+    salutation += contact['lastname']
+  else:
+    salutation += " Damen und Herren"
   address = result['resultlist.realEstate']['address']['description']['text']
-  text = f"Sehr geehrte{salutation} {last_name},\n{cfg.text_before_address} {address} {cfg.text_after_address}" 
+  text = f"{salutation},\n{cfg.text_before_address} {address} {cfg.text_after_address}" 
   print(text)
   return text
 
-def print_result(result):
-  """Prints the relevant info from the result"""
+def log_result(result):
+  """Logs the relevant info from the result"""
   print("id: "+result['@id'])
   print("title")
   print(result['resultlist.realEstate']['title'])
   print("address")
   print(result['resultlist.realEstate']['address'])
+  print("contact")
+  print(result['resultlist.realEstate']['contactDetails'])
+
   # print(json.dumps(result, sort_keys=False, indent=4))
 
 def main():
@@ -77,7 +84,7 @@ def main():
         if not first_run:
           res = parse_result(result) 
           bot.sendMessage(chat_id = cfg.telegram.chat_id, text = res )        
-          print_result(result)
+          log_result(result)
           message_suggestion = get_message_suggestion(result,cfg.message)
           bot.sendMessage(chat_id = cfg.telegram.chat_id, text = message_suggestion )  
         m.add(result['@id'])
