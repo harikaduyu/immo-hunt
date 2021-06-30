@@ -13,6 +13,7 @@ def build_immo_url_from_config(cfg):
 
   #Build parameters
   url += f"haspromotion={cfg.wbs}&"  if hasattr(cfg, 'wbs') and cfg.wbs is not None else ""
+  url += f"shape={cfg.shape}&"  if hasattr(cfg, 'shape') and cfg.shape is not None else ""
   url += f"numberofrooms={cfg.num_of_rooms}&" if hasattr(cfg, 'wbs') and cfg.num_of_rooms is not None else ""
   price_from =  cfg.price_from if (hasattr(cfg, 'price_from') and cfg.price_from is not None) else ""
   price_up_to = cfg.price_up_to if (hasattr(cfg, 'price_up_to') and cfg.price_up_to is not None) else ""

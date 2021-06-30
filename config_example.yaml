@@ -9,6 +9,7 @@ immoscout:
   living_space: 60.0
   price_type: calculatedtotalrent #for warm or rentpermonth for kalt
   floor_from: 2
+  shape: null
 telegram:
   token: <your-telegram-bot-token>
   chat_id: <your-telegram-chat_id>
