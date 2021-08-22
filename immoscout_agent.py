@@ -37,6 +37,7 @@ class ImmoScout:
     raw_result_list = immoscout_ads_content["searchResponseModel"]["resultlist.resultlist"]["resultlistEntries"][0]["resultlistEntry"]
     return raw_result_list
 
+  @staticmethod
   def parse_result(result):
     """Parses the relevant info from the result json to a string for Telegram message"""
     parsed_result = result['resultlist.realEstate']['address']['quarter'] +'\n'
@@ -63,6 +64,7 @@ class ImmoScout:
     print(message_text)
     return message_text
 
+  @staticmethod
   def log_result(result):
     """Logs the relevant info from the result"""
     print("id: "+result['@id'])
