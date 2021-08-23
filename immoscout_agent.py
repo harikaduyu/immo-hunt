@@ -48,10 +48,9 @@ class ImmoScout:
     parsed_result += "https://www.immobilienscout24.de/expose/" + result['@id']
     return parsed_result
 
-
-  def get_message_suggestion(self,result):
+  @staticmethod
+  def get_message_suggestion(message_config,result):
     """Prepares a message suggestions to send"""
-    message_config =self.config.message
     contact = result['resultlist.realEstate']['contactDetails']
     salutation = "Sehr geehrte"
     if 'lastname' in contact:

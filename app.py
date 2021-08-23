@@ -18,7 +18,7 @@ def main():
       parsed_result = immoscout_agent.parse_result(immo_result) 
       bot.sendMessage(chat_id = config.telegram.chat_id, text = parsed_result )        
       immoscout_agent.log_result(immo_result)
-      message_text = immoscout_agent.get_message_suggestion(immo_result)
+      message_text = immoscout_agent.get_message_suggestion(config.message,immo_result)
       bot.sendMessage(chat_id = config.telegram.chat_id, text = message_text )  
     time.sleep(60)
 
