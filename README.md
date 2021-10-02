@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/github/license/harikaduyu/immo-hunt"><img src="https://img.shields.io/maintenance/yes/2021"><a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
+<img src="https://img.shields.io/github/license/harikaduyu/immo-hunt"> <img src="https://img.shields.io/maintenance/yes/2021"> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
 
 # immo-hunt
 
