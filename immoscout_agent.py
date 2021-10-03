@@ -13,7 +13,8 @@ class ImmoScout:
     """Builds immobilienscout url using config values to set request parameters"""
     config = self.config
     if hasattr(config, 'whole_url') and config.whole_url:
-      return config.whole_url
+      # adding sorting parameter, bc it doesn't work without it
+      return config.whole_url + "&sorting=2" 
     with_balcony =  "-mit-balkon" if hasattr(config, 'with_balcony') and config.with_balcony else ""
     url = f"{config.url}{config.city}/{config.city}/wohnung{with_balcony}-mieten?"
 
