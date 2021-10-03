@@ -79,4 +79,10 @@ Now you are ready to run the app
 python app.py
 ```
 ### Run locally with Docker
-Coming soon..
+Make sure you've set up your `config.yaml` file and you have docker installed on your machine. Afterwards, just run the following two commands on the app's directory, and your app is up and running.
+
+```
+docker build -t immohunt .
+docker run -d immohunt
+```
+Remember to check the logs of your app.
