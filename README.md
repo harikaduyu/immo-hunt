@@ -1,5 +1,8 @@
-<img src="https://img.shields.io/github/license/harikaduyu/immo-hunt"> <img src="https://img.shields.io/maintenance/yes/2021"> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
+<img src="https://img.shields.io/github/license/harikaduyu/immo-hunt"> <img src="https://img.shields.io/maintenance/no/2022"> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
 
+``` diff
+- !!! Immobilienscout turned this API off. So ImmoTrakt does NOT work anymore. -
+```
 # immo-hunt
 
 A telegram bot app, which sends new offers from immobilienscout website based on some filters as a telegram message. It also sends a recommended message to send to the poster of the offer, using offer address and contact details.
