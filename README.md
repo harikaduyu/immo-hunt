@@ -1,7 +1,7 @@
 <img src="https://img.shields.io/github/license/harikaduyu/immo-hunt"> <img src="https://img.shields.io/maintenance/no/2022"> <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg"></a>
 
 ``` diff
-- !!! Immobilienscout turned this API off. So ImmoTrakt does NOT work anymore. -
+- !!! Immobilienscout turned this API off. So ImmoHunt does NOT work anymore. -
 ```
 # immo-hunt
 
